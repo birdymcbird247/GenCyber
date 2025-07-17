@@ -1,18 +1,130 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gen Cyber MIXSweenAI</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <main>
-        <h1>Gen Cyber MIXSweenAI 2025</h1>  
-    </main>
-    <script src="index.js"></script>
-  </body>
+    <title>Gen Cyber Camp 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /*
+        ================================================
+          Hippie-Craft Cyber Color Palette & Layout
+        ================================================
+        */
+        :root {
+          /* Main background gradient colors */
+          --color-primary-yellow: #FFD700;
+          --color-primary-orange: #FFA500;
+          --color-primary-pink:   #FF69B4;
+
+          /* Main text color for the page */
+          --color-text-main: #4A2311; /* Dark Brown */
+
+          /* Accent colors used for titles */
+          --color-accent-pink:   #DB2777;
+          --color-accent-orange: #EA580C;
+          --color-accent-yellow: #CA8A04;
+
+          /* Card and element styling */
+          --color-card-bg: rgba(255, 255, 255, 0.85);
+          --color-card-border: #FFFFFF;
+        }
+
+        /* Applying the main theme and fonts */
+        body {
+          background: linear-gradient(135deg, var(--color-primary-yellow), var(--color-primary-orange), var(--color-primary-pink));
+          color: var(--color-text-main);
+          font-family: 'Gochi Hand', cursive;
+        }
+
+        .minecraft-font {
+            font-family: 'VT323', monospace;
+        }
+
+        /* Main container for the content */
+        .main-container {
+            background-color: var(--color-card-bg);
+            border: 4px solid var(--color-card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Styling for the image */
+        .styled-image {
+            border: 4px solid var(--color-card-border);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Styling for the widget area */
+        .widget {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 2px dashed var(--color-primary-pink);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="main-container max-w-4xl mx-auto rounded-3xl p-6 md:p-10 shadow-2xl">
+        
+        <!-- === HEADER SECTION === -->
+        <header class="text-center mb-10">
+            <h1 class="minecraft-font text-5xl md:text-7xl" style="color: var(--color-accent-pink);">My Cyber Garden</h1>
+            <p class="text-xl md:text-2xl mt-2">A groovy place for thoughts, tech, and widgets!</p>
+        </header>
+
+        <!-- === MAIN CONTENT (TEXT & IMAGE) === -->
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-12">
+            
+            <!-- Text Column -->
+            <div class="md:col-span-2">
+                <h2 class="minecraft-font text-4xl mb-4" style="color: var(--color-accent-orange);">About This Space</h2>
+                <p class="text-lg leading-relaxed">
+                    Welcome, friend! This is a space to plant ideas and watch them grow. Whether we're talking about groovy cybersecurity concepts, sharing neat bits of code, or just enjoying the digital sunshine, it's all about good vibes here.
+                    <br><br>
+                    Feel free to look around, check out the widgets, and get inspired. The digital world is your canvas!
+                </p>
+            </div>
+
+            <!-- Image Column -->
+            <div class="flex justify-center">
+                <img 
+                    src="https://placehold.co/400x400/FFD700/4A2311?text=Groovy!\n:)" 
+                    alt="A placeholder image with a yellow background and brown text that says Groovy!"
+                    class="styled-image rounded-2xl w-48 h-48 md:w-56 md:h-56 object-cover"
+                >
+            </div>
+        </main>
+
+        <!-- === WIDGETS SECTION === -->
+        <section>
+            <h2 class="minecraft-font text-4xl text-center mb-6" style="color: var(--color-accent-yellow);">Widgets & Cool Stuff</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Widget 1 -->
+                <div class="widget p-6 rounded-2xl text-center">
+                    <h3 class="minecraft-font text-2xl mb-2">My Links</h3>
+                    <p>A great place for a list of your social media or project links!</p>
+                </div>
+
+                <!-- Widget 2 -->
+                <div class="widget p-6 rounded-2xl text-center">
+                    <h3 class="minecraft-font text-2xl mb-2">Latest Project</h3>
+                    <p>You could embed a video or a screenshot of your latest work here.</p>
+                </div>
+
+                <!-- Widget 3 -->
+                <div class="widget p-6 rounded-2xl text-center">
+                    <h3 class="minecraft-font text-2xl mb-2">Quote of the Day</h3>
+                    <p>"Stay groovy, stay secure."</p>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+</body>
 </html>
+
