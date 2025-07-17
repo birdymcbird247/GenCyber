@@ -1,110 +1,265 @@
-!DOCTYPE html>
+YPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gen Cyber Camp 2025</title>
+    <title>My GitHub Sandbox</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=VT323&family=Roboto+Mono:wght@400;700&family=Kalam:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         /*
         ================================================
-          Hippie-Craft Cyber Color Palette & Layout
+          1. Hippie-Craft Cyber Main Theme
         ================================================
         */
         :root {
-          /* Main background gradient colors */
           --color-primary-yellow: #FFD700;
           --color-primary-orange: #FFA500;
           --color-primary-pink:   #FF69B4;
-
-          /* Main text color for the page */
-          --color-text-main: #4A2311; /* Dark Brown */
-
-          /* Accent colors used for titles */
+          --color-text-main: #4A2311;
           --color-accent-pink:   #DB2777;
           --color-accent-orange: #EA580C;
           --color-accent-yellow: #CA8A04;
-
-          /* Card and element styling */
           --color-card-bg: rgba(255, 255, 255, 0.85);
           --color-card-border: #FFFFFF;
         }
-
-        /* Applying the main theme and fonts */
         body {
           background: linear-gradient(135deg, var(--color-primary-yellow), var(--color-primary-orange), var(--color-primary-pink));
           color: var(--color-text-main);
           font-family: 'Gochi Hand', cursive;
         }
-
-        .minecraft-font {
-            font-family: 'VT323', monospace;
-        }
-
-        /* Main container for the content */
+        .minecraft-font { font-family: 'VT323', monospace; }
         .main-container {
             background-color: var(--color-card-bg);
             border: 4px solid var(--color-card-border);
             backdrop-filter: blur(10px);
         }
-
-        /* Styling for the image */
         .styled-image {
             border: 4px solid var(--color-card-border);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-
-        /* Styling for the widget area */
-        .widget {
-            background-color: rgba(255, 255, 255, 0.7);
-            border: 2px dashed var(--color-primary-pink);
+        .widget-title {
+            font-family: 'VT323', monospace;
+            color: var(--color-accent-orange);
+            text-align: center;
+            margin-bottom: 1rem;
         }
+
+        /*
+        ================================================
+          2. Widget Specific Styles
+        ================================================
+        */
+
+        /* --- Hockey Game Widget --- */
+        .hockey-game-widget { font-family: 'Press Start 2P', cursive; }
+        .hockey-game-widget canvas { background-color: #f7fafc; border: 4px solid #a0aec0; border-radius: 1rem; }
+        .hockey-game-widget .hockey-controls { background-color: #2d3748; border-radius: 1rem; padding: 1rem; color: #e2e8f0; }
+        .hockey-game-widget .hockey-btn { transition: all 0.2s ease-in-out; }
+        .hockey-game-widget .hockey-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .hockey-modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+        .hockey-modal-content { background-color: #2d3748; color: white; padding: 2rem; border-radius: 1rem; text-align: center; }
+
+        /* --- Vibe Quiz Widget --- */
+        .vibe-quiz-widget { font-family: 'Kalam', cursive; }
+        .vibe-quiz-card { background-color: rgba(224, 231, 255, 0.9); border: 3px solid #4338CA; border-radius: 2rem; }
+        .vibe-quiz-option-btn { border: 2px solid #6366F1; background-color: #C7D2FE; transition: all 0.2s ease-in-out; border-radius: 1rem; color: #4338CA; }
+        .vibe-quiz-option-btn:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(67, 56, 202, 0.3); background-color: #A5B4FC; }
+
+        /* --- Cyber Quiz Widget --- */
+        .cyber-quiz-widget { font-family: 'Roboto Mono', monospace; color: #E2E8F0; }
+        .cyber-quiz-card { background-color: rgba(26, 32, 44, 0.9); border: 2px solid #00FF00; border-radius: 1.5rem; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); }
+        .cyber-quiz-option-btn { border: 2px solid #4A5568; background-color: #2D3748; transition: all 0.2s ease-in-out; border-radius: 1rem; text-align: left; color: #E2E8F0; }
+        .cyber-quiz-option-btn:hover { transform: translateY(-3px); border-color: #00FF00; box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2); }
+        .cyber-progress-bar-container { width: 100%; background-color: #2D3748; border-radius: 9999px; height: 10px; border: 1px solid #4A5568; }
+        .cyber-progress-bar { background-color: #00FF00; height: 100%; border-radius: 9999px; transition: width 0.5s ease-in-out; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="main-container max-w-4xl mx-auto rounded-3xl p-6 md:p-10 shadow-2xl">
+    <div class="main-container max-w-7xl mx-auto rounded-3xl p-6 md:p-10 shadow-2xl">
         
-        <!-- === HEADER SECTION === -->
         <header class="text-center mb-10">
-            <h1 class="minecraft-font text-5xl md:text-7xl" style="color: var(--color-accent-pink);">My Cyber Garden</h1>
+            <h1 class="minecraft-font text-5xl md:text-7xl" style="color: var(--color-accent-pink);">My GitHub Sandbox</h1>
             <p class="text-xl md:text-2xl mt-2">A groovy place for thoughts, tech, and widgets!</p>
         </header>
 
-        <ul>
-            
-  <li><a href="https://www.example.com">Example Link 1</a></li>
-  <li><a href="https://www.anotherexample.com">Example Link 2</a></li>
-  <li><a href="https://www.yetanother.com">Example Link 3</a></li>
-</ul>
-                
-            </li>
-        </ul>
-
-        <!-- === MAIN CONTENT (TEXT & IMAGE) === -->
-        <main class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-12">
-            
-            <!-- Text Column -->
-            <div class="md:col-span-2">
-                <h2 class="minecraft-font text-4xl mb-4" style="color: var(--color-accent-orange);">About This Space</h2>
-                <p class="text-lg leading-relaxed">
-                    Welcome, friend! This is a space to plant ideas and watch them grow. Whether we're talking about groovy cybersecurity concepts, sharing neat bits of code, or just enjoying the digital sunshine, it's all about good vibes here.
-                    <br><br>
-                    Feel free to look around, check out the widgets, and get inspired. The digital world is your canvas!
-                </p>
-            </div>
-
-            <!-- Image Column -->
-            <div class="flex justify-center">
-                <img 
-                    src="https://placehold.co/400x400/FFD700/4A2311?text=Groovy!\n:)" 
-                    alt="A placeholder image with a yellow background and brown text that says Groovy!"
-                    class="styled-image rounded-2xl w-48 h-48 md:w-56 md:h-56 object-cover"
-                >
-            </div>
+        <main class="text-center mb-12">
+            <h2 class="minecraft-font text-4xl mb-4" style="color: var(--color-accent-orange);">About This Space</h2>
+            <p class="text-lg leading-relaxed max-w-3xl mx-auto">
+                Welcome, friend! This is a space to plant ideas and watch them grow. Below are a few interactive widgets I've been working on. Feel free to play around and get inspired. The digital world is your canvas!
+            </p>
         </main>
+
+        <section>
+            <h2 class="minecraft-font text-5xl text-center mb-8" style="color: var(--color-accent-yellow);">Widgets & Cool Stuff</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- Column 1: Hockey Game -->
+                <div class="hockey-game-widget">
+                    <h3 class="widget-title text-4xl">Geometry Hockey</h3>
+                    <canvas id="hockeyRink" width="800" height="400" class="w-full"></canvas>
+                    <div class="hockey-controls mt-4">
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <label for="angleSlider" class="text-sm">Angle:</label>
+                                <input type="range" id="angleSlider" min="0" max="360" value="45" class="w-32 md:w-48">
+                                <span id="angleValue" class="text-sm font-bold w-12 text-center">45°</span>
+                            </div>
+                            <button id="shootButton" class="hockey-btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg text-lg">Shoot!</button>
+                        </div>
+                    </div>
+                    <div id="hockeyMessageModal" class="hockey-modal">
+                        <div class="hockey-modal-content"><p id="hockeyModalText" class="text-2xl mb-6"></p><button id="closeHockeyModal" class="hockey-btn bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-8 rounded-lg">Close</button></div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quizzes -->
+                <div class="space-y-12">
+                    <!-- Vibe Quiz -->
+                    <div class="vibe-quiz-widget">
+                        <h3 class="widget-title text-4xl">Summer Vibe Survey</h3>
+                        <div id="vibe-quiz-container" class="w-full"></div>
+                        <div id="vibe-result-container" class="hidden w-full"></div>
+                    </div>
+
+                    <!-- Cyber Quiz -->
+                    <div class="cyber-quiz-widget">
+                        <h3 class="widget-title text-4xl">Cybersecurity Savvy</h3>
+                        <div id="cyber-quiz-container" class="w-full"></div>
+                        <div id="cyber-result-container" class="hidden w-full"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <script>
+    // Encapsulate each widget's script in an IIFE (Immediately Invoked Function Expression)
+    // to prevent variable name collisions.
+
+    (function() {
+        // --- WIDGET 1: HOCKEY GAME SCRIPT ---
+        const canvas = document.getElementById('hockeyRink');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const angleSlider = document.getElementById('angleSlider');
+        const angleValue = document.getElementById('angleValue');
+        const shootButton = document.getElementById('shootButton');
+        const modal = document.getElementById('hockeyMessageModal');
+        const modalText = document.getElementById('hockeyModalText');
+        const closeModal = document.getElementById('closeHockeyModal');
+
+        let puck = { x: 200, y: 200, radius: 10, vx: 0, vy: 0, speed: 10 };
+        const net = { x: 780, y: 150, width: 20, height: 100 };
+        let shooting = false;
+
+        function drawRink() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#a0aec0';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
+        function drawPuck() { ctx.beginPath(); ctx.arc(puck.x, puck.y, puck.radius, 0, Math.PI * 2); ctx.fillStyle = '#1a202c'; ctx.fill(); ctx.closePath(); }
+        function drawNet() { ctx.fillStyle = 'blue'; ctx.fillRect(net.x, net.y, net.width, net.height); }
+        function drawTrajectory() {
+            if (shooting) return;
+            const angle = parseFloat(angleSlider.value) * Math.PI / 180;
+            const endX = puck.x + Math.cos(angle) * 1000;
+            const endY = puck.y + Math.sin(angle) * 1000;
+            ctx.beginPath(); ctx.moveTo(puck.x, puck.y); ctx.lineTo(endX, endY); ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; ctx.lineWidth = 2; ctx.setLineDash([5, 10]); ctx.stroke(); ctx.setLineDash([]);
+        }
+        function shoot() {
+            if (shooting) return;
+            shooting = true;
+            const angle = parseFloat(angleSlider.value) * Math.PI / 180;
+            puck.vx = Math.cos(angle) * puck.speed;
+            puck.vy = Math.sin(angle) * puck.speed;
+            shootButton.disabled = true;
+        }
+        function update() {
+            if (!shooting) return;
+            puck.x += puck.vx; puck.y += puck.vy;
+            if (puck.x - puck.radius < 0 || puck.x + puck.radius > canvas.width) { puck.vx *= -1; }
+            if (puck.y - puck.radius < 0 || puck.y + puck.radius > canvas.height) { puck.vy *= -1; }
+            if (puck.x + puck.radius > net.x && puck.y > net.y && puck.y < net.y + net.height) { showHockeyModal("GOAL!"); resetShot(); }
+            if (puck.x > canvas.width + puck.radius * 2) { showHockeyModal("Miss!"); resetShot(); }
+        }
+        function resetShot() { shooting = false; puck.x = 200; puck.y = 200; puck.vx = 0; puck.vy = 0; shootButton.disabled = false; }
+        function draw() { drawRink(); drawNet(); drawPuck(); drawTrajectory(); }
+        function gameLoop() { update(); draw(); requestAnimationFrame(gameLoop); }
+        function showHockeyModal(message) { modalText.textContent = message; modal.style.display = 'flex'; }
+        
+        angleSlider.addEventListener('input', () => { angleValue.textContent = `${angleSlider.value}°`; if (!shooting) draw(); });
+        shootButton.addEventListener('click', shoot);
+        closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
+        
+        gameLoop();
+    })();
+
+    (function() {
+        // --- WIDGET 2: VIBE QUIZ SCRIPT ---
+        const quizContainer = document.getElementById('vibe-quiz-container');
+        if (!quizContainer) return;
+        const resultContainer = document.getElementById('vibe-result-container');
+        const quizData = [ { question: "You're planning a summer road trip. Your co-pilot is:", options: [ { text: "A crinkled paper map.", points: 1 }, { text: "A GPS app and podcasts.", points: 2 }, { text: "An AI suggesting attractions.", points: 3 } ] }, { question: "It's dinner time. You:", options: [ { text: "Use grandma's recipe box.", points: 1 }, { text: "Watch cooking videos.", points: 2 }, { text: "Ask your smart fridge.", points: 3 } ] }, { question: "Your new summer hobby involves:", options: [ { text: "Gardening with a shovel.", points: 1 }, { text: "A YouTube tutorial series.", points: 2 }, { text: "Using AI to generate art.", points: 3 } ] } ];
+        const resultsData = { 3: { title: "Forest Guardian", description: "You trust ancient wisdom and time-tested tools." }, 6: { title: "Adventuring Mage", description: "You expertly blend the old with the new." }, 9: { title: "Arcane Artificer", description: "You are a master of magical technology." } };
+        let currentQuestionIndex = 0, score = 0;
+
+        function showVibeQuestion() {
+            if (currentQuestionIndex >= quizData.length) { showVibeResult(); return; }
+            const question = quizData[currentQuestionIndex];
+            quizContainer.innerHTML = `<div class="vibe-quiz-card p-6 text-center"><h2 class="text-xl font-bold mb-4">${question.question}</h2><div class="grid grid-cols-1 gap-3">${question.options.map(o => `<button class="vibe-quiz-option-btn p-3" data-points="${o.points}">${o.text}</button>`).join('')}</div></div>`;
+            document.querySelectorAll('.vibe-quiz-option-btn').forEach(b => b.addEventListener('click', e => { score += parseInt(e.target.dataset.points); currentQuestionIndex++; showVibeQuestion(); }));
+        }
+        function getVibeResultCategory(s) { if (s <= 4) return 3; if (s <= 7) return 6; return 9; }
+        function showVibeResult() {
+            quizContainer.classList.add('hidden');
+            const result = resultsData[getVibeResultCategory(score)];
+            resultContainer.innerHTML = `<div class="vibe-quiz-card p-6 text-center"><h2 class="text-lg font-bold text-gray-700">Your Vibe:</h2><h3 class="text-3xl font-bold mb-2" style="color: #4338CA;">${result.title}</h3><p class="text-base mb-4">${result.description}</p><button id="vibe-restart-btn" class="vibe-quiz-option-btn p-3 font-bold">Take Again!</button></div>`;
+            resultContainer.classList.remove('hidden');
+            document.getElementById('vibe-restart-btn').addEventListener('click', () => { currentQuestionIndex = 0; score = 0; resultContainer.classList.add('hidden'); quizContainer.classList.remove('hidden'); showVibeQuestion(); });
+        }
+        showVibeQuestion();
+    })();
+
+    (function() {
+        // --- WIDGET 3: CYBER QUIZ SCRIPT ---
+        const quizContainer = document.getElementById('cyber-quiz-container');
+        if (!quizContainer) return;
+        const resultContainer = document.getElementById('cyber-result-container');
+        const quizData = [ { concept: "Confidentiality", question: "How do you share student grades?", options: [ { text: "Sticky note.", points: 1 }, { text: "Direct email.", points: 2 }, { text: "Protected parent portal.", points: 3 } ] }, { concept: "Integrity", question: "How do you verify a digital art project?", options: [ { text: "Assume it's fine.", points: 1 }, { text: "Check 'last modified' date.", points: 2 }, { text: "Check file's 'hash'.", points: 3 } ] }, { concept: "Availability", question: "Your lesson plan is on a USB stick. Your backup is:", options: [ { text: "No backup needed.", points: 1 }, { text: "Email a copy to myself.", points: 2 }, { text: "Save to a cloud service.", points: 3 } ] } ];
+        const resultsData = { low: { title: "Digital Padawan", nerdScore: "35%" }, medium: { title: "Cyber Operator", nerdScore: "65%" }, high: { title: "Guardian of the Gigabytes", nerdScore: "95%" } };
+        let currentQuestionIndex = 0, score = 0;
+
+        function showCyberQuestion() {
+            if (currentQuestionIndex >= quizData.length) { showCyberResult(); return; }
+            const q = quizData[currentQuestionIndex];
+            const progress = ((currentQuestionIndex) / quizData.length) * 100;
+            quizContainer.innerHTML = `<div class="cyber-quiz-card p-6 text-center"><div class="mb-4"><p class="text-sm font-bold text-green-400">CONCEPT: ${q.concept}</p><h2 class="text-xl font-bold my-2">${q.question}</h2></div><div class="grid grid-cols-1 gap-3">${q.options.map(o => `<button class="cyber-quiz-option-btn p-3 text-base" data-points="${o.points}">${o.text}</button>`).join('')}</div><div class="cyber-progress-bar-container mt-6"><div class="cyber-progress-bar" style="width: ${progress}%"></div></div></div>`;
+            document.querySelectorAll('.cyber-quiz-option-btn').forEach(b => b.addEventListener('click', (e) => { score += parseInt(e.target.dataset.points); currentQuestionIndex++; showCyberQuestion(); }));
+        }
+        function getCyberResultCategory(s) { if (s <= 4) return 'low'; if (s <= 7) return 'medium'; return 'high'; }
+        function showCyberResult() {
+            quizContainer.innerHTML = '';
+            const result = resultsData[getCyberResultCategory(score)];
+            resultContainer.innerHTML = `<div class="cyber-quiz-card p-6 text-center"><h2 class="text-lg font-bold mb-1 text-gray-400">Your Result...</h2><h3 class="text-3xl font-bold mb-2 text-green-400">${result.title}</h3><p class="text-4xl font-bold text-white">${result.nerdScore}</p><button id="cyber-restart-btn" class="cyber-quiz-option-btn p-3 mt-4 text-base font-bold w-auto px-6 mx-auto block text-center">Retake</button></div>`;
+            resultContainer.classList.remove('hidden');
+            document.getElementById('cyber-restart-btn').addEventListener('click', () => { currentQuestionIndex = 0; score = 0; resultContainer.classList.add('hidden'); quizContainer.classList.remove('hidden'); showCyberQuestion(); });
+        }
+        showCyberQuestion();
+    })();
+
+    </script>
+</body>
+</html>
 
         
