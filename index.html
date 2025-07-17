@@ -102,7 +102,8 @@
             <h2 class="minecraft-font text-4xl text-center mb-6" style="color: var(--color-accent-yellow);">Widgets & Cool Stuff</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <!-- Widget 1: Cybersecurity Quiz -->
+              
+<!-- Widget 1: Cybersecurity Quiz -->
 <div id="quiz-container" class="w-full">
     <!-- Quiz content will be injected here by JavaScript -->
 </div>
@@ -110,6 +111,212 @@
 <div id="result-container" class="hidden w-full">
     <!-- Result content will be shown here by JavaScript -->
 </div>
+                <style>
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #1a202c; /* Dark Gray */
+            background-image:
+                radial-gradient(circle at 1px 1px, #4a5568 1px, transparent 0);
+            background-size: 20px 20px;
+            color: #E2E8F0;
+        }
+        .card {
+            background-color: rgba(26, 32, 44, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid #00FF00; /* Bright Green */
+            border-radius: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+        .option-btn {
+            border: 2px solid #4A5568;
+            background-color: #2D3748;
+            transition: all 0.2s ease-in-out;
+            border-radius: 1rem;
+            text-align: left;
+        }
+        .option-btn:hover {
+            transform: translateY(-3px);
+            border-color: #00FF00;
+            box-shadow: 0 4px 10px rgba(0, 255, 0, 0.2);
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #2D3748;
+            border-radius: 9999px;
+            height: 10px;
+            border: 1px solid #4A5568;
+        }
+        .progress-bar {
+            background-color: #00FF00;
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+                    const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+
+        // --- QUIZ DATA BASED ON 6 CYBERSECURITY CONCEPTS ---
+        const quizData = [
+            {
+                concept: "Confidentiality",
+                question: "You need to share student grades with a parent. You decide to:",
+                options: [
+                    { text: "Write them on a sticky note. The parent can pick it up from the front desk.", points: 1 },
+                    { text: "Email them directly. It's fast and easy.", points: 2 },
+                    { text: "Use the school's official, password-protected parent portal.", points: 3 }
+                ]
+            },
+            {
+                concept: "Integrity",
+                question: "A student submits a digital art project. To ensure it hasn't been altered since they sent it, you:",
+                options: [
+                    { text: "Assume it's fine. Who would alter a student's art project?", points: 1 },
+                    { text: "Check the file's 'last modified' date to see if it seems right.", points: 2 },
+                    { text: "Use a tool to check the file's 'hash' or 'digital signature' against what the student sent.", points: 3 }
+                ]
+            },
+            {
+                concept: "Availability",
+                question: "Your lesson plan for tomorrow is on a single USB stick. Your strategy for ensuring it's available is:",
+                options: [
+                    { text: "Keep the USB stick on my desk. It'll be there in the morning.", points: 1 },
+                    { text: "Email a copy to my personal account, just in case.", points: 2 },
+                    { text: "Save it to a cloud service like Google Drive or OneDrive, which has backups.", points: 3 }
+                ]
+            },
+            {
+                concept: "Think Like an Adversary",
+                question: "You're setting up a new online tool for a class project. You first think:",
+                options: [
+                    { text: "'This looks fun! Let's get the students signed up.'", points: 1 },
+                    { text: "'I should check the privacy settings to see what data is collected.'", points: 2 },
+                    { text: "'How could a student misuse this to disrupt class or bother others? Let me set rules first.'", points: 3 }
+                ]
+            },
+            {
+                concept: "Defense in Depth",
+                question: "Your classroom laptop contains sensitive student information. How do you protect it?",
+                options: [
+                    { text: "I'm careful with it. That's protection enough.", points: 1 },
+                    { text: "It has a password, so it's secure.", points: 2 },
+                    { text: "It has a strong password, the disk is encrypted, and it auto-locks after 5 minutes.", points: 3 }
+                ]
+            },
+            {
+                concept: "Keep it Simple",
+                question: "To manage student logins for 5 different educational apps, you:",
+                options: [
+                    { text: "Create a complex spreadsheet with unique, 20-character passwords for each student and app.", points: 1 },
+                    { text: "Have students reuse their school password for everything.", points: 2 },
+                    { text: "Use a single sign-on (SSO) service provided by the school, like 'Sign in with Google/Microsoft'.", points: 3 }
+                ]
+            }
+        ];
+
+        const resultsData = {
+            // Score 6-9
+            low: {
+                title: "Digital Padawan",
+                nerdScore: "35%",
+                description: "Your journey into the cyber world has just begun! You have a foundational awareness, but there are many secrets of the digital force yet to learn. A good next step is exploring your school's tech acceptable use policy."
+            },
+            // Score 10-14
+            medium: {
+                title: "Cyber Operator",
+                nerdScore: "65%",
+                description: "You're savvy and know your way around the digital landscape. You make smart, secure choices most of the time. To level up, start thinking about how to teach these concepts to your students in simple terms."
+            },
+            // Score 15-18
+            high: {
+                title: "Guardian of the Gigabytes",
+                nerdScore: "95%",
+                description: "You are a master of the digital domain. Your instincts are sharp, and you think in layers of security. Your colleagues probably come to you for tech advice. You are ready to lead the charge in creating a cyber-secure school culture."
+            }
+        };
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function showQuestion() {
+            if (currentQuestionIndex >= quizData.length) {
+                showResult();
+                return;
+            }
+
+            const q = quizData[currentQuestionIndex];
+            const progress = ((currentQuestionIndex) / quizData.length) * 100;
+            
+            quizContainer.innerHTML = `
+                <div class="card p-8 text-center">
+                    <div class="mb-4">
+                        <p class="text-sm font-bold text-green-400">CONCEPT: ${q.concept}</p>
+                        <h2 class="text-2xl md:text-3xl font-bold my-4">${q.question}</h2>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4">
+                        ${q.options.map(option => `
+                            <button class="option-btn p-4 text-lg" data-points="${option.points}">
+                                ${option.text}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div class="progress-bar-container mt-8">
+                        <div class="progress-bar" style="width: ${progress}%"></div>
+                    </div>
+                </div>
+            `;
+
+            document.querySelectorAll('.option-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    score += parseInt(e.target.dataset.points);
+                    currentQuestionIndex++;
+                    showQuestion();
+                });
+            });
+        }
+        
+        function getResultCategory(finalScore) {
+            if (finalScore <= 9) return 'low';
+            if (finalScore <= 14) return 'medium';
+            return 'high';
+        }
+
+        function showResult() {
+            quizContainer.innerHTML = ''; // Clear quiz
+            const resultCategory = getResultCategory(score);
+            const result = resultsData[resultCategory];
+            const progress = 100;
+
+            resultContainer.innerHTML = `
+                <div class="card p-8 text-center">
+                    <h2 class="text-xl font-bold mb-2 text-gray-400">Your Result...</h2>
+                    <h3 class="text-5xl md:text-6xl font-bold mb-4 text-green-400">${result.title}</h3>
+                    <div class="my-8">
+                        <p class="text-lg">Cyber Nerd Score:</p>
+                        <p class="text-7xl font-bold text-white">${result.nerdScore}</p>
+                    </div>
+                    <p class="text-lg md:text-xl mb-8">${result.description}</p>
+                    <button id="restart-btn" class="option-btn p-4 text-lg font-bold w-full md:w-auto px-8 mx-auto block">
+                        Retake Assessment
+                    </button>
+                    <div class="progress-bar-container mt-8">
+                        <div class="progress-bar" style="width: ${progress}%"></div>
+                    </div>
+                </div>
+            `;
+            resultContainer.classList.remove('hidden');
+
+            document.getElementById('restart-btn').addEventListener('click', () => {
+                currentQuestionIndex = 0;
+                score = 0;
+                resultContainer.classList.add('hidden');
+                showQuestion();
+            });
+        }
+
+        // --- Initial Load ---
+        window.onload = () => {
+            showQuestion();
+        };
 
                 <!-- Widget 2 -->
                 <div class="widget p-6 rounded-2xl text-center">
