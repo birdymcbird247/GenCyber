@@ -99,7 +99,7 @@ YPE html>
                 
                 <!-- Column 1: Hockey Game -->
                 <div class="hockey-game-widget">
-                    <h3 class="widget-title text-4xl">Geometry Hockey</h3>
+                    <h3 id="hockey-title" class="widget-title text-4xl">Geometry Hockey</h3>
                     <canvas id="hockeyRink" width="800" height="400" class="w-full"></canvas>
                     <div class="hockey-controls mt-4">
                         <div class="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -142,7 +142,7 @@ YPE html>
     // to prevent variable name collisions.
 
     (function() {
-        // --- WIDGET 1: HOCKEY GAME SCRIPT ---
+        // --- WIDGET 1: HOCKEY GAME SCRIPT (WITH LEVEL LOGIC RESTORED) ---
         const canvas = document.getElementById('hockeyRink');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -152,10 +152,38 @@ YPE html>
         const modal = document.getElementById('hockeyMessageModal');
         const modalText = document.getElementById('hockeyModalText');
         const closeModal = document.getElementById('closeHockeyModal');
+        const hockeyTitle = document.getElementById('hockey-title');
 
         let puck = { x: 200, y: 200, radius: 10, vx: 0, vy: 0, speed: 10 };
         const net = { x: 780, y: 150, width: 20, height: 100 };
         let shooting = false;
+        let level = 1;
+        let obstacles = [];
+        
+        const levels = [
+            { level: 1, puckPos: { x: 200, y: 200 }, obstacles: [], challenge: "Level 1: Direct Shot" },
+            { level: 2, puckPos: { x: 200, y: 100 }, obstacles: [], challenge: "Level 2: Bank Shot" },
+            { level: 3, puckPos: { x: 150, y: 200 }, obstacles: [{ type: 'rect', x: 400, y: 100, width: 30, height: 200 }], challenge: "Level 3: Obstacle" },
+            { level: 4, puckPos: { x: 600, y: 300 }, obstacles: [{ type: 'rect', x: 300, y: 0, width: 30, height: 200 }], challenge: "Level 4: Trick Shot" }
+        ];
+
+        function setupLevel(levelIndex) {
+            if (levelIndex > levels.length) {
+                showHockeyModal("You beat all levels! Resetting.");
+                level = 1;
+                levelIndex = 1;
+            }
+            const levelData = levels[levelIndex - 1];
+            hockeyTitle.textContent = "Geometry Hockey - " + levelData.challenge;
+            puck.x = levelData.puckPos.x;
+            puck.y = levelData.puckPos.y;
+            puck.vx = 0;
+            puck.vy = 0;
+            obstacles = levelData.obstacles;
+            shooting = false;
+            shootButton.disabled = false;
+            draw();
+        }
 
         function drawRink() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -168,98 +196,18 @@ YPE html>
             ctx.strokeStyle = 'red';
             ctx.stroke();
         }
+        function drawObstacles() {
+            ctx.fillStyle = '#718096';
+            obstacles.forEach(obs => {
+                if (obs.type === 'rect') {
+                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                }
+            });
+        }
         function drawPuck() { ctx.beginPath(); ctx.arc(puck.x, puck.y, puck.radius, 0, Math.PI * 2); ctx.fillStyle = '#1a202c'; ctx.fill(); ctx.closePath(); }
-        function drawNet() { ctx.fillStyle = 'blue'; ctx.fillRect(net.x, net.y, net.width, net.height); }
-        function drawTrajectory() {
-            if (shooting) return;
-            const angle = parseFloat(angleSlider.value) * Math.PI / 180;
-            const endX = puck.x + Math.cos(angle) * 1000;
-            const endY = puck.y + Math.sin(angle) * 1000;
-            ctx.beginPath(); ctx.moveTo(puck.x, puck.y); ctx.lineTo(endX, endY); ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; ctx.lineWidth = 2; ctx.setLineDash([5, 10]); ctx.stroke(); ctx.setLineDash([]);
-        }
-        function shoot() {
-            if (shooting) return;
-            shooting = true;
-            const angle = parseFloat(angleSlider.value) * Math.PI / 180;
-            puck.vx = Math.cos(angle) * puck.speed;
-            puck.vy = Math.sin(angle) * puck.speed;
-            shootButton.disabled = true;
-        }
-        function update() {
-            if (!shooting) return;
-            puck.x += puck.vx; puck.y += puck.vy;
-            if (puck.x - puck.radius < 0 || puck.x + puck.radius > canvas.width) { puck.vx *= -1; }
-            if (puck.y - puck.radius < 0 || puck.y + puck.radius > canvas.height) { puck.vy *= -1; }
-            if (puck.x + puck.radius > net.x && puck.y > net.y && puck.y < net.y + net.height) { showHockeyModal("GOAL!"); resetShot(); }
-            if (puck.x > canvas.width + puck.radius * 2) { showHockeyModal("Miss!"); resetShot(); }
-        }
-        function resetShot() { shooting = false; puck.x = 200; puck.y = 200; puck.vx = 0; puck.vy = 0; shootButton.disabled = false; }
-        function draw() { drawRink(); drawNet(); drawPuck(); drawTrajectory(); }
-        function gameLoop() { update(); draw(); requestAnimationFrame(gameLoop); }
-        function showHockeyModal(message) { modalText.textContent = message; modal.style.display = 'flex'; }
-        
-        angleSlider.addEventListener('input', () => { angleValue.textContent = `${angleSlider.value}°`; if (!shooting) draw(); });
-        shootButton.addEventListener('click', shoot);
-        closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
-        
-        gameLoop();
-    })();
+        function drawNet() { ctx.fillStyle = 'blue'; ctx.fillRect(net.x, net.y, net.width, n
 
-    (function() {
-        // --- WIDGET 2: VIBE QUIZ SCRIPT ---
-        const quizContainer = document.getElementById('vibe-quiz-container');
-        if (!quizContainer) return;
-        const resultContainer = document.getElementById('vibe-result-container');
-        const quizData = [ { question: "You're planning a summer road trip. Your co-pilot is:", options: [ { text: "A crinkled paper map.", points: 1 }, { text: "A GPS app and podcasts.", points: 2 }, { text: "An AI suggesting attractions.", points: 3 } ] }, { question: "It's dinner time. You:", options: [ { text: "Use grandma's recipe box.", points: 1 }, { text: "Watch cooking videos.", points: 2 }, { text: "Ask your smart fridge.", points: 3 } ] }, { question: "Your new summer hobby involves:", options: [ { text: "Gardening with a shovel.", points: 1 }, { text: "A YouTube tutorial series.", points: 2 }, { text: "Using AI to generate art.", points: 3 } ] } ];
-        const resultsData = { 3: { title: "Forest Guardian", description: "You trust ancient wisdom and time-tested tools." }, 6: { title: "Adventuring Mage", description: "You expertly blend the old with the new." }, 9: { title: "Arcane Artificer", description: "You are a master of magical technology." } };
-        let currentQuestionIndex = 0, score = 0;
-
-        function showVibeQuestion() {
-            if (currentQuestionIndex >= quizData.length) { showVibeResult(); return; }
-            const question = quizData[currentQuestionIndex];
-            quizContainer.innerHTML = `<div class="vibe-quiz-card p-6 text-center"><h2 class="text-xl font-bold mb-4">${question.question}</h2><div class="grid grid-cols-1 gap-3">${question.options.map(o => `<button class="vibe-quiz-option-btn p-3" data-points="${o.points}">${o.text}</button>`).join('')}</div></div>`;
-            document.querySelectorAll('.vibe-quiz-option-btn').forEach(b => b.addEventListener('click', e => { score += parseInt(e.target.dataset.points); currentQuestionIndex++; showVibeQuestion(); }));
-        }
-        function getVibeResultCategory(s) { if (s <= 4) return 3; if (s <= 7) return 6; return 9; }
-        function showVibeResult() {
-            quizContainer.classList.add('hidden');
-            const result = resultsData[getVibeResultCategory(score)];
-            resultContainer.innerHTML = `<div class="vibe-quiz-card p-6 text-center"><h2 class="text-lg font-bold text-gray-700">Your Vibe:</h2><h3 class="text-3xl font-bold mb-2" style="color: #4338CA;">${result.title}</h3><p class="text-base mb-4">${result.description}</p><button id="vibe-restart-btn" class="vibe-quiz-option-btn p-3 font-bold">Take Again!</button></div>`;
-            resultContainer.classList.remove('hidden');
-            document.getElementById('vibe-restart-btn').addEventListener('click', () => { currentQuestionIndex = 0; score = 0; resultContainer.classList.add('hidden'); quizContainer.classList.remove('hidden'); showVibeQuestion(); });
-        }
-        showVibeQuestion();
-    })();
-
-    (function() {
-        // --- WIDGET 3: CYBER QUIZ SCRIPT ---
-        const quizContainer = document.getElementById('cyber-quiz-container');
-        if (!quizContainer) return;
-        const resultContainer = document.getElementById('cyber-result-container');
-        const quizData = [ { concept: "Confidentiality", question: "How do you share student grades?", options: [ { text: "Sticky note.", points: 1 }, { text: "Direct email.", points: 2 }, { text: "Protected parent portal.", points: 3 } ] }, { concept: "Integrity", question: "How do you verify a digital art project?", options: [ { text: "Assume it's fine.", points: 1 }, { text: "Check 'last modified' date.", points: 2 }, { text: "Check file's 'hash'.", points: 3 } ] }, { concept: "Availability", question: "Your lesson plan is on a USB stick. Your backup is:", options: [ { text: "No backup needed.", points: 1 }, { text: "Email a copy to myself.", points: 2 }, { text: "Save to a cloud service.", points: 3 } ] } ];
-        const resultsData = { low: { title: "Digital Padawan", nerdScore: "35%" }, medium: { title: "Cyber Operator", nerdScore: "65%" }, high: { title: "Guardian of the Gigabytes", nerdScore: "95%" } };
-        let currentQuestionIndex = 0, score = 0;
-
-        function showCyberQuestion() {
-            if (currentQuestionIndex >= quizData.length) { showCyberResult(); return; }
-            const q = quizData[currentQuestionIndex];
-            const progress = ((currentQuestionIndex) / quizData.length) * 100;
-            quizContainer.innerHTML = `<div class="cyber-quiz-card p-6 text-center"><div class="mb-4"><p class="text-sm font-bold text-green-400">CONCEPT: ${q.concept}</p><h2 class="text-xl font-bold my-2">${q.question}</h2></div><div class="grid grid-cols-1 gap-3">${q.options.map(o => `<button class="cyber-quiz-option-btn p-3 text-base" data-points="${o.points}">${o.text}</button>`).join('')}</div><div class="cyber-progress-bar-container mt-6"><div class="cyber-progress-bar" style="width: ${progress}%"></div></div></div>`;
-            document.querySelectorAll('.cyber-quiz-option-btn').forEach(b => b.addEventListener('click', (e) => { score += parseInt(e.target.dataset.points); currentQuestionIndex++; showCyberQuestion(); }));
-        }
-        function getCyberResultCategory(s) { if (s <= 4) return 'low'; if (s <= 7) return 'medium'; return 'high'; }
-        function showCyberResult() {
-            quizContainer.innerHTML = '';
-            const result = resultsData[getCyberResultCategory(score)];
-            resultContainer.innerHTML = `<div class="cyber-quiz-card p-6 text-center"><h2 class="text-lg font-bold mb-1 text-gray-400">Your Result...</h2><h3 class="text-3xl font-bold mb-2 text-green-400">${result.title}</h3><p class="text-4xl font-bold text-white">${result.nerdScore}</p><button id="cyber-restart-btn" class="cyber-quiz-option-btn p-3 mt-4 text-base font-bold w-auto px-6 mx-auto block text-center">Retake</button></div>`;
-            resultContainer.classList.remove('hidden');
-            document.getElementById('cyber-restart-btn').addEventListener('click', () => { currentQuestionIndex = 0; score = 0; resultContainer.classList.add('hidden'); quizContainer.classList.remove('hidden'); showCyberQuestion(); });
-        }
-        showCyberQuestion();
-    })();
-
-    </script>
-</body>
-</html>
-
+  
+         
+      
         
